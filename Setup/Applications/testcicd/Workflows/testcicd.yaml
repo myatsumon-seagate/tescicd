@@ -67,4 +67,6 @@ rollbackPhases:
   provisionNodes: false
   serviceName: testcicd
   statefulSet: false
+tags:
+  test: '1.0'
 templatized: false
