@@ -13,7 +13,7 @@ test-job1:
     - apk add git && apk add make
 
   script:
-    - docker login -u $REGISTRY_USER -p $REGISTRY_PASS $CI_REGISTRY
+    - docker login -u myat86@gmail.com -p _1FuNQ7rjnXwo86hpCDk registry.gitlab.com
     - make docker
 
     #   Scan image
