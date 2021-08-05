@@ -6,7 +6,12 @@ build-job:
 test-job1:
   stage: test
   script:
-    - echo "This job tests something"
+    #   Scan image
+    - echo "Scan image using trivy"
+    - wget https://github.com/aquasecurity/trivy/releases/download/v0.19.2/trivy_0.19.2_Linux-64bit.tar.gz
+    - tar xzvf trivy_0.19.2_Linux-64bit.tar.gz
+    - ./trivy registry.gitlab.com/lyvesaas/registry/iam-audit-logs:9e7d3b03
+
 
 test-job2:
   stage: test
