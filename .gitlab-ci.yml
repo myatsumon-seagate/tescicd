@@ -1,16 +1,26 @@
 build-job:
   stage: build
   script:
-    - echo "Hello, $GITLAB_USER_LOGIN!"
+    - echo "Hello, $GITLAB_USER_LOGIN! and $REGISTRY_USER , $REGISTRY_PASS $CI_REGISTRY"
 
 test-job1:
   stage: test
+  image: docker:19.03.1
+  services:
+    - docker:19.03.1-dind
+  before_script:
+    - apk update
+    - apk add git && apk add make
+
   script:
+    - docker login -u $REGISTRY_USER -p $REGISTRY_PASS $CI_REGISTRY
+    - make docker
+
     #   Scan image
     - echo "Scan image using trivy"
     - wget https://github.com/aquasecurity/trivy/releases/download/v0.19.2/trivy_0.19.2_Linux-64bit.tar.gz
     - tar xzvf trivy_0.19.2_Linux-64bit.tar.gz
-    - ./trivy nginx
+    - ./trivy registry.gitlab.com/lyvesaas/registry/iam-audit-logs:9e7d3b03
 
 
 deploy-prod:
