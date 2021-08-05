@@ -19,7 +19,12 @@ test-job1:
     - echo "Scan image using trivy"
     - wget https://github.com/aquasecurity/trivy/releases/download/v0.19.2/trivy_0.19.2_Linux-64bit.tar.gz
     - tar xzvf trivy_0.19.2_Linux-64bit.tar.gz
+    - echo "Scan IAM Audit Log"
     - ./trivy registry.gitlab.com/lyvesaas/registry/iam-audit-logs:9e7d3b03
+    - echo "Scan MinIO"
+    - ./trivy registry.gitlab.com/lyvesaas/registry/mirror_minio:b1c731c4
+    - echo "Scan orchestrator"
+    - ./trivy registry.gitlab.com/lyvesaas/registry/mirror_minio-orchestrator:4aa449f1
 
 
 deploy-prod:
