@@ -7,11 +7,10 @@ test-job1:
   stage: test
   script:
     #   Scan image
-    - docker login -u $REGISTRY_USER -p $REGISTRY_PASS $CI_REGISTRY
     - echo "Scan image using trivy"
     - wget https://github.com/aquasecurity/trivy/releases/download/v0.19.2/trivy_0.19.2_Linux-64bit.tar.gz
     - tar xzvf trivy_0.19.2_Linux-64bit.tar.gz
-    - ./trivy registry.gitlab.com/lyvesaas/registry/iam-audit-logs:9e7d3b03
+    - ./trivy nginx
 
 
 deploy-prod:
