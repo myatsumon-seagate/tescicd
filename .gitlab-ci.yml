@@ -13,7 +13,7 @@ test-job1:
     - apk add git && apk add make
 
   script:
-    - docker login -u myat86@gmail.com -p _1FuNQ7rjnXwo86hpCDk registry.gitlab.com
+    - docker login -u $username -p $pwd $registry
 
     #   Scan image
     - echo "Scan image using trivy"
