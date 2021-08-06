@@ -1,4 +1,3 @@
-Test for Jenkins
 
 # Getting Started with Create React App
 
