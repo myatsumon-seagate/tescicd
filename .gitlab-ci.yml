@@ -12,6 +12,8 @@ build-node-image:
     project: myatsumon_seagate/node
     branch: main
     strategy: depend
+  only:
+    - tags    
   
 
 build-cicd-image:
