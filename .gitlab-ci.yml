@@ -10,7 +10,7 @@ build-node-image:
   stage: build-node
   trigger:
     project: myatsumon_seagate/node
-    branch: master
+    branch: main
     strategy: depend
   
 
