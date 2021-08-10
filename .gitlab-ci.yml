@@ -7,6 +7,8 @@ build-node-image:
   include:
     - project: 'myatsumon_seagate/node'
       file: '/.gitlab-ci.yml'
+  script:
+    - echo "Hello, $GITLAB_USER_LOGIN! and $REGISTRY_USER , $REGISTRY_PASS $CI_REGISTRY"
     
   only:
     - tags    
