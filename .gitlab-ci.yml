@@ -4,9 +4,10 @@ stages:
 
 build-node-image:
   stage: build-node
-  include:
-    - project: 'myatsumon_seagate/node'
-      file: '/.gitlab-ci.yml'
+  trigger:
+    include:
+      - project: 'myatsumon_seagate/node'
+        file: '/.gitlab-ci.yml'
   script:
     - echo "Hello, $GITLAB_USER_LOGIN! and $REGISTRY_USER , $REGISTRY_PASS $CI_REGISTRY"
     
