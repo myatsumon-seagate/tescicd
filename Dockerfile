@@ -4,7 +4,7 @@ WORKDIR /app
 COPY package*.json /app/
 RUN yarn install
 COPY ./ /app/
-RUN yarn build
+RUN yarn run build
 
 
 FROM nginx:1.19.0
