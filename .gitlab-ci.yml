@@ -1,13 +1,14 @@
+include:
+  - project: 'myatsumon_seagate/node'
+    file: '/.gitlab-ci.yml'
+
 stages:
   - build-node
   - build-cicd
 
 build-node-image:
   stage: build-node
-  trigger:
-    include:
-      - project: 'myatsumon_seagate/node'
-        file: '/.gitlab-ci.yml'
+
   script:
     - echo "Hello, $GITLAB_USER_LOGIN! and $REGISTRY_USER , $REGISTRY_PASS $CI_REGISTRY"
     
