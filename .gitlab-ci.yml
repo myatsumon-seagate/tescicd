@@ -5,6 +5,7 @@ include:
 stages:
   - build-node
   - build-cicd
+  - docker-build-master
 
 build-node-image:
   stage: build-node
