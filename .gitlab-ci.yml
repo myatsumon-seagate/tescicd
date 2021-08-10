@@ -2,18 +2,18 @@
 #   - project: 'myatsumon_seagate/node'
 #     file: '/.gitlab-ci.yml'
 
-stages:
-  - build-node
-  - build-cicd
+# stages:
+#   - build-node
+#   - build-cicd
 
-build-node-image:
-  stage: build-node
-  trigger:
-    project: myatsumon_seagate/node
-    branch: main
-    strategy: depend
-  only:
-    - tags    
+# build-node-image:
+#   stage: build-node
+#   trigger:
+#     project: myatsumon_seagate/node
+#     branch: main
+#     strategy: depend
+#   only:
+#     - tags    
   
 
 build-cicd-image:
@@ -23,10 +23,10 @@ build-cicd-image:
   services:
     - docker:dind
   before_script:
-    - docker login -u myatsumon -p $pwd
+    - docker login -u myatsumon -p $password
   script:
     - docker build -t myatsumon/testcicd .
     - docker tag myatsumon/testcicd myatsumon/testcicd:$CI_COMMIT_SHORT_SHA
     - docker push myatsumon/testcicd:$CI_COMMIT_SHORT_SHA
-  only:
-    - tags
+  # only:
+  #   - tags
