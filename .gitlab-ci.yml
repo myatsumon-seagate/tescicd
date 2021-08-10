@@ -8,10 +8,8 @@ stages:
 
 build-node-image:
   stage: build-node
-
   script:
     - echo "Hello, $GITLAB_USER_LOGIN! and $REGISTRY_USER , $REGISTRY_PASS $CI_REGISTRY"
-    
   only:
     - tags    
 
