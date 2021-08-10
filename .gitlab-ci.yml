@@ -1,11 +1,10 @@
-include:
-  - project: 'myatsumon_seagate/node'
-    file: '/.gitlab-ci.yml'
+# include:
+#   - project: 'myatsumon_seagate/node'
+#     file: '/.gitlab-ci.yml'
 
 stages:
   - build-node
   - build-cicd
-  - docker-build-master
 
 build-node-image:
   stage: build-node
