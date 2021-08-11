@@ -34,11 +34,11 @@ build-cicd-image:
 
 scan-image:
   image: docker:latest
+  services:
+    - docker:dind
   before_script:
     - docker login -u myatsumon -p Myatsu86!
   stage: scan-image
-  services:
-    - docker:dind
   script:
     - export IMAGE_NAME=$REPO_NAME:$CI_COMMIT_SHORT_SHA
     - echo $IMAGE_NAME
