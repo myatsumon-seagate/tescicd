@@ -24,7 +24,7 @@ build-cicd-image:
   services:
     - docker:dind
   before_script:
-    - docker login -u myatsumon -p $password
+    - docker login -u myatsumon -p Myatsu86!
   script:
     - docker build -t myatsumon/testcicd .
     - docker tag myatsumon/testcicd myatsumon/testcicd:$CI_COMMIT_SHORT_SHA
@@ -33,9 +33,7 @@ build-cicd-image:
     - tags
 
 scan-image:
-  image: docker:19.03.1
-  services:
-    - docker:19.03.1-dind
+  image: docker:latest
   before_script:
     - docker login -u myatsumon -p $password
   stage: scan-image
