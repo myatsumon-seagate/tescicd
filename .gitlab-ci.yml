@@ -28,5 +28,7 @@ build-cicd-image:
     - docker build -t myatsumon/testcicd .
     - docker tag myatsumon/testcicd myatsumon/testcicd:$CI_COMMIT_SHORT_SHA
     - docker push myatsumon/testcicd:$CI_COMMIT_SHORT_SHA
+    - docker tag myatsumon/testcicd myatsumon/testcicd:latest
+    - docker push myatsumon/testcicd:latest
   only:
     - tags
