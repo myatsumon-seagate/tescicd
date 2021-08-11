@@ -5,6 +5,7 @@
 stages:
   - build-node
   - build-cicd
+  - scan-image
 
 build-node-image:
   stage: build-node
@@ -30,3 +31,25 @@ build-cicd-image:
     - docker push myatsumon/testcicd:$CI_COMMIT_SHORT_SHA
   only:
     - tags
+
+scan-image:
+  image: docker:19.03.1
+  services:
+    - docker:19.03.1-dind
+  before_script:
+    - docker login -u myatsumon -p $password
+  stage: scan-image
+  script:
+    - export IMAGE_NAME=$REPO_NAME:$CI_COMMIT_SHORT_SHA
+    - echo $IMAGE_NAME
+
+    - echo "Public Registry"
+    - docker login -u $REGISTRY_USER -p $REGISTRY_PASS $CI_REGISTRY
+
+    - echo "Scan image using trivy"
+    - wget https://github.com/aquasecurity/trivy/releases/download/v0.19.2/trivy_0.19.2_Linux-64bit.tar.gz
+    - tar xzvf trivy_0.19.2_Linux-64bit.tar.gz
+    - ./trivy $IMAGE_NAME
+  only:
+    - tags  
+
