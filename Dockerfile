@@ -1,4 +1,4 @@
-FROM node:10 as build-stage
+FROM myatsumon/testcicd:latest as build-stage
  
 WORKDIR /app
 COPY package*.json /app/
