@@ -1,53 +1,52 @@
-stages:
-  - build
-  - scan
+# include:
+#   - project: 'myatsumon_seagate/node'
+#     file: '/.gitlab-ci.yml'
 
-# This file is a template, and might need editing before it works on your project.
-docker-build-master:
+stages:
+  - build-node
+  - build-cicd
+  - scan-image
+
+build-node-image:
+  stage: build-node
+  trigger:
+    project: myatsumon_seagate/node
+    branch: main
+    strategy: depend
+  only:
+    - tags    
+  
+
+build-cicd-image:
   # Official docker image.
   image: docker:latest
-  stage: build
+  stage: build-cicd
   services:
     - docker:dind
   before_script:
-    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    - docker login -u myatsumon -p Myatsu86!
   script:
-    - docker build --pull -t "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA" .
-    - docker push "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA" 
-    - docker tag "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA" "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG"
-    - docker push "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG"
-  only:
-    - tags
-    
-# This file is a template, and might need editing before it works on your project.
-docker-build-public:
-#   For Public Registry - Will remove 
-  image: docker:latest
-  stage: build
-  services:
-    - docker:dind
-  before_script:
-    - docker login -u $REGISTRY_USER -p $REGISTRY_PASS $CI_REGISTRY
-  script:
-    - docker build --pull -t "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA" .   
-    - docker tag "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA" "registry.gitlab.com/lyvesaas/registry/secure-alpine:$CI_COMMIT_SHORT_SHA" 
-    - docker push "registry.gitlab.com/lyvesaas/registry/secure-alpine:$CI_COMMIT_SHORT_SHA" 
-    - docker tag "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA" "registry.gitlab.com/lyvesaas/registry/secure-alpine:$CI_COMMIT_REF_SLUG"
-    - docker push "registry.gitlab.com/lyvesaas/registry/secure-alpine:$CI_COMMIT_REF_SLUG"
+    - docker build -t myatsumon/testcicd .
+    - docker tag myatsumon/testcicd myatsumon/testcicd:$CI_COMMIT_SHORT_SHA
+    - docker push myatsumon/testcicd:$CI_COMMIT_SHORT_SHA
   only:
     - tags
 
- scan-image:
+scan-image:
   image: docker:latest
   services:
     - docker:dind
-  stage: scan
+  before_script:
+    - docker login -u myatsumon -p Myatsu86!
+  stage: scan-image
   script:
-    - export CI_REGISTRY_IMAGE=registry.gitlab.com/lyvesaas/registry/secure-alpine:$CI_COMMIT_SHORT_SHA
-    - docker login -u $REGISTRY_USER -p $REGISTRY_PASS $CI_REGISTRY
+    - export IMAGE_NAME=myatsumon/testcicd:$CI_COMMIT_SHORT_SHA
+    - echo $IMAGE_NAME
+
     - echo "Scan image using trivy"
     - wget https://github.com/aquasecurity/trivy/releases/download/v0.19.2/trivy_0.19.2_Linux-64bit.tar.gz
     - tar xzvf trivy_0.19.2_Linux-64bit.tar.gz
-    - ./trivy $CI_REGISTRY_IMAGE
+    - ./trivy $IMAGE_NAME
   only:
-    - tags   
+    - tags  
+
