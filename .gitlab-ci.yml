@@ -28,11 +28,7 @@ build-cicd-image:
     - which git || apk add git
     - docker login -u myatsumon -p Myatsu86!
   script:
-    - echo "testing ...."
-    - git merge-file test.txt  /node/test.txt
-    - git add .
-    - git commit -m "Test the file merge"
-    # - docker build -t myatsumon/testcicd .
+    - git clone https://gitlab.com/myatsumon_seagate/node.git master
     # - docker tag myatsumon/testcicd myatsumon/testcicd:$CI_COMMIT_SHORT_SHA
     # - docker push myatsumon/testcicd:$CI_COMMIT_SHORT_SHA
   # only:
