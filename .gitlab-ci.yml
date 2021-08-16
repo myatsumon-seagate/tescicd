@@ -2,7 +2,7 @@
 #   - project: 'myatsumon_seagate/node'
 #     file: '/.gitlab-ci.yml'
 
-stages:
+# stages:
   # - build-node
   # - build-cicd
   # - scan-image
