@@ -20,7 +20,7 @@
 build-cicd-image:
   # Official docker image.
   image: docker:latest
-  stage: build-cicd
+  # stage: build-cicd
   services:
     - docker:dind
   before_script:
