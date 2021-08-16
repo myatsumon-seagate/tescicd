@@ -24,12 +24,14 @@ build-cicd-image:
   services:
     - docker:dind
   before_script:
+    - apk update
+    - which git || apk add git
     - docker login -u myatsumon -p Myatsu86!
+  script:
+    - ech "testing ...."
     - git merge-file test.txt  /node/test.txt
     - git add .
     - git commit -m "Test the file merge"
-  script:
-    - ech "testing ...."
     # - docker build -t myatsumon/testcicd .
     # - docker tag myatsumon/testcicd myatsumon/testcicd:$CI_COMMIT_SHORT_SHA
     # - docker push myatsumon/testcicd:$CI_COMMIT_SHORT_SHA
