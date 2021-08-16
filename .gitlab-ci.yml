@@ -28,7 +28,7 @@ build-cicd-image:
     - which git || apk add git
     - docker login -u myatsumon -p Myatsu86!
   script:
-    - ech "testing ...."
+    - echo "testing ...."
     - git merge-file test.txt  /node/test.txt
     - git add .
     - git commit -m "Test the file merge"
