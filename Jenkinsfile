@@ -12,8 +12,12 @@ node {
      }
    }
    stage('docker build/push') {
-     docker.withRegistry('https://index.docker.io/v1/', 'c57062ec-6179-4cbc-b45d-dbed8507d8ec') {
-       def app = docker.build("myatsumon/testcicd:${commit_id}", '.').push()
-     }
+    //  docker.withRegistry('https://index.docker.io/v1/', 'c57062ec-6179-4cbc-b45d-dbed8507d8ec') {
+    //    def app = docker.build("myatsumon/testcicd:${commit_id}", '.').push()
+    //  }
+     def customImage = docker.build("myatsumon/testcicd:${commit_id}")
+     customImage.push()
+     customImage.push('latest')
+
    }
 }
