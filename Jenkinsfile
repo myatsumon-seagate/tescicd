@@ -22,7 +22,7 @@ node {
       
               sh'''
               echo "Scan image using trivy"
-              wget https://github.com/aquasecurity/trivy/releases/download/v0.19.2/trivy_0.19.2_Linux-64bit.tar.gz
+              /usr/local/bin/wget https://github.com/aquasecurity/trivy/releases/download/v0.19.2/trivy_0.19.2_Linux-64bit.tar.gz
               tar xzvf trivy_0.19.2_Linux-64bit.tar.gz
               ./trivy myatsumon/testcicd:${commit_id}
               '''
