@@ -13,9 +13,11 @@ node {
    }
    stage('Build and publish') {
      
-     def customImage = docker.build("myatsumon/testcicd:${commit_id}")
-     customImage.push()
-     customImage.push('latest')
+        docker.withRegistry('https://index.docker.io/v1/', 'sumon-dockerhub') {
+        def customImage = docker.build("myatsumon/testcicd:${commit_id}")
+        customImage.push()
+        customImage.push('latest')
+      }
 
    }
    stage('Test and Scan Build Image') {
