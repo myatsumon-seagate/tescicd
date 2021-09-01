@@ -1,4 +1,4 @@
-FROM myatsumon/test:latest as build-stage
+FROM registry.gitlab.com/lyvesaas/registry/sumon:node as build-stage
  
 WORKDIR /app
 COPY package*.json /app/
@@ -7,6 +7,6 @@ COPY ./ /app/
 RUN apk update
 RUN yarn run build
 
-# FROM nginx:1.17
-# COPY build/ /usr/share/nginx/html
+FROM registry.gitlab.com/lyvesaas/registry/orchestrator-nginx:ce0784f2
+COPY build/ /usr/share/nginx/html
 
