@@ -7,6 +7,6 @@ COPY ./ /app/
 RUN apk update
 RUN yarn run build
 
-FROM registry.gitlab.com/lyvesaas/registry/secure-nginx:4ffd799b
-COPY build/ /usr/share/nginx/html
+# FROM registry.gitlab.com/lyvesaas/registry/secure-nginx:4ffd799b
+# COPY build/ /usr/share/nginx/html
 
