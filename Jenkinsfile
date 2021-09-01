@@ -35,11 +35,17 @@ node('dind') {
         stage('Build and publish') {
      
           //sh 'sleep 10 && docker version && DOCKER_BUILDKIT=1 docker build --progress plain -t registry.gitlab.com/lyvesaas/registry/sumon:testcicd .'
-       
-            docker.withRegistry('registry.gitlab.com', '3101d702-e282-4378-97cd-92313e579d61') {
-            def customImage = docker.build("myatsumon/testcicd:latest")
-            customImage.push()
-            customImage.push('latest')
+          sh '''
+
+            sleep 10
+            docker login registry.gitlab.com --username myat86@gmail.com --password _1FuNQ7rjnXwo86hpCDk
+            DOCKER_BUILDKIT=1 docker build --progress plain -t registry.gitlab.com/lyvesaas/registry/sumon:testcicd .
+
+          '''
+            // docker.withRegistry('registry.gitlab.com', '3101d702-e282-4378-97cd-92313e579d61') {
+            // def customImage = docker.build("myatsumon/testcicd:latest")
+            // customImage.push()
+            // customImage.push('latest')
           }
     }
     container('trivy') {
