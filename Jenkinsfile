@@ -13,8 +13,8 @@ node {
    }
    stage('Build and publish') {
      
-        docker.withRegistry('https://index.docker.io/v1/', 'sumon-docker') {
-        def customImage = docker.build("myatsumon/testcicd:${commit_id}")
+        docker.withRegistry('registry.gitlab.com', 'sumon-gitlab') {
+        def customImage = docker.build("registry.gitlab.com/lyvesaas/registry/sumon-cicd:${commit_id}")
         customImage.push()
         customImage.push('latest')
       }
