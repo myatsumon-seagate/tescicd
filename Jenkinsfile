@@ -77,7 +77,7 @@ pipeline {
         
         checkout scm
         sh "git rev-parse --short HEAD > .git/commit-id"   
-        COMMITID = readFile('.git/commit-id').trim()
+        env.COMMITID = readFile('.git/commit-id').trim()
         container('docker') {
           
             
