@@ -40,6 +40,7 @@ node('dind') {
             sleep 10
             docker login registry.gitlab.com --username myat86@gmail.com --password _1FuNQ7rjnXwo86hpCDk
             DOCKER_BUILDKIT=1 docker build --progress plain -t registry.gitlab.com/lyvesaas/registry/sumon:testcicd .
+            trivy --version
 
           '''
             // docker.withRegistry('registry.gitlab.com', '3101d702-e282-4378-97cd-92313e579d61') {
