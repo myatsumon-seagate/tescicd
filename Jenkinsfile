@@ -77,7 +77,10 @@ pipeline {
         
         checkout scm
         sh "git rev-parse --short HEAD > .git/commit-id"   
-        env.COMMITID = readFile('.git/commit-id').trim()
+        withEnv(["COMMITID="readFile('.git/commit-id').trim()]) { // it can override any env variable
+                    echo "COMMIT-ID = ${env.COMMITID}" // prints "FOO = foobar"
+                }
+        // env.COMMITID = readFile('.git/commit-id').trim()
         container('docker') {
           
             
