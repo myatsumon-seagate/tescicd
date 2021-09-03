@@ -10,8 +10,7 @@
 # # FROM nginx:1.17
 # # COPY build/ /usr/share/nginx/html
 
-
-FROM registry.gitlab.com/lyvesaas/registry/sumon:node
+FROM node:6.10-alpine
 
 # Yarn is available by default in node docker images now, no need to install
 
@@ -55,7 +54,7 @@ RUN yarn $yarnMode --offline --frozen-lockfile --link-duplicates
 COPY src $HOME/src
 RUN yarn run compile
 
-FROM registry.gitlab.com/lyvesaas/registry/secure-nginx:beb87766
+FROM nginx
 COPY build/ /usr/share/nginx/html
 
 ENV NODE_ENV development
