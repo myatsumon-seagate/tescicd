@@ -70,11 +70,11 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-       
+        checkout scm
+        sh "git rev-parse --short HEAD > .git/commit-id"   
         container('docker') {
           
-            checkout scm
-            sh "git rev-parse --short HEAD > .git/commit-id"   
+            
           
             sh '''
 
