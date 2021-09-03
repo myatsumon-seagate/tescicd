@@ -77,19 +77,15 @@ pipeline {
         
         checkout scm
         sh "git rev-parse --short HEAD > .git/commit-id"   
-        withEnv(["COMMITID="readFile('.git/commit-id').trim()]) { // it can override any env variable
-                    echo "COMMIT-ID = ${env.COMMITID}" // prints "FOO = foobar"
-                }
-        // env.COMMITID = readFile('.git/commit-id').trim()
         container('docker') {
           
             
-          
+      
             sh '''
 
               sleep 10
               docker login registry.gitlab.com --username myat86@gmail.com --password _1FuNQ7rjnXwo86hpCDk
-              DOCKER_BUILDKIT=1 docker build --progress plain -t registry.gitlab.com/lyvesaas/registry/sumon-testcicd:${COMMITID} .
+              DOCKER_BUILDKIT=1 docker build --progress plain -t registry.gitlab.com/lyvesaas/registry/sumon-testcicd:${BUILD_NUMBER} .
             '''
               
    
@@ -106,7 +102,7 @@ pipeline {
     stage("Scan for vulnerabilities"){
         steps {
             container('trivy'){
-                sh 'trivy image registry.gitlab.com/lyvesaas/registry/sumon-testcicd:${COMMITID}'
+                sh 'trivy image registry.gitlab.com/lyvesaas/registry/sumon-testcicd:${BUILD_NUMBER}'
             }
         }
     }    
