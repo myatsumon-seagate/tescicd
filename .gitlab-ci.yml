@@ -2,51 +2,52 @@
 #   - project: 'myatsumon_seagate/node'
 #     file: '/.gitlab-ci.yml'
 
-stages:
-  - build-node
-  - build-cicd
-  - scan-image
+# stages:
+  # - build-node
+  # - build-cicd
+  # - scan-image
 
-build-node-image:
-  stage: build-node
-  trigger:
-    project: myatsumon_seagate/node
-    branch: main
-    strategy: depend
-  only:
-    - tags    
+# build-node-image:
+#   stage: build-node
+#   trigger:
+#     project: myatsumon_seagate/node
+#     branch: main
+#     strategy: depend
+#   only:
+#     - tags    
   
 
 build-cicd-image:
   # Official docker image.
   image: docker:latest
-  stage: build-cicd
+  # stage: build-cicd
   services:
     - docker:dind
   before_script:
+    - apk update
+    - which git || apk add git
     - docker login -u myatsumon -p Myatsu86!
   script:
-    - docker build -t myatsumon/testcicd .
-    - docker tag myatsumon/testcicd myatsumon/testcicd:$CI_COMMIT_SHORT_SHA
-    - docker push myatsumon/testcicd:$CI_COMMIT_SHORT_SHA
-  only:
-    - tags
+    - git clone https://gitlab.com/myatsumon_seagate/node.git master
+    # - docker tag myatsumon/testcicd myatsumon/testcicd:$CI_COMMIT_SHORT_SHA
+    # - docker push myatsumon/testcicd:$CI_COMMIT_SHORT_SHA
+  # only:
+  #   - tags
 
-scan-image:
-  image: docker:latest
-  services:
-    - docker:dind
-  before_script:
-    - docker login -u myatsumon -p Myatsu86!
-  stage: scan-image
-  script:
-    - export IMAGE_NAME=myatsumon/testcicd:$CI_COMMIT_SHORT_SHA
-    - echo $IMAGE_NAME
+# scan-image:
+#   image: docker:latest
+#   services:
+#     - docker:dind
+#   before_script:
+#     - docker login -u myatsumon -p Myatsu86!
+#   stage: scan-image
+#   script:
+#     - export IMAGE_NAME=myatsumon/testcicd:$CI_COMMIT_SHORT_SHA
+#     - echo $IMAGE_NAME
 
-    - echo "Scan image using trivy"
-    - wget https://github.com/aquasecurity/trivy/releases/download/v0.19.2/trivy_0.19.2_Linux-64bit.tar.gz
-    - tar xzvf trivy_0.19.2_Linux-64bit.tar.gz
-    - ./trivy $IMAGE_NAME
-  only:
-    - tags  
+#     - echo "Scan image using trivy"
+#     - wget https://github.com/aquasecurity/trivy/releases/download/v0.19.2/trivy_0.19.2_Linux-64bit.tar.gz
+#     - tar xzvf trivy_0.19.2_Linux-64bit.tar.gz
+#     - ./trivy myatsumon/testcicd:node-test
+ 
 
