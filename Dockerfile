@@ -67,7 +67,7 @@ RUN yarn $yarnMode --offline --frozen-lockfile --link-duplicates
 COPY src $HOME/src
 RUN yarn run compile
 
-FROM FROM registry.gitlab.com/lyvesaas/registry/secure-nginx:beb87766
+FROM registry.gitlab.com/lyvesaas/registry/secure-nginx:beb87766
 COPY build/ /usr/share/nginx/html
 
 ENV NODE_ENV development
