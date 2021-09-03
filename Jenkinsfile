@@ -67,14 +67,17 @@ pipeline {
 	  inheritFrom 'dind'
     }
   }
+  environment {
+        COMMIT-ID = '' 
+  }
   stages {
-    def commit_id
+     
     stage('Build') {
       steps {
         
         checkout scm
         sh "git rev-parse --short HEAD > .git/commit-id"   
-        commit_id = readFile('.git/commit-id').trim()
+        COMMIT-ID = readFile('.git/commit-id').trim()
         container('docker') {
           
             
@@ -83,7 +86,7 @@ pipeline {
 
               sleep 10
               docker login registry.gitlab.com --username myat86@gmail.com --password _1FuNQ7rjnXwo86hpCDk
-              DOCKER_BUILDKIT=1 docker build --progress plain -t registry.gitlab.com/lyvesaas/registry/sumon-testcicd:${commit_id} .
+              DOCKER_BUILDKIT=1 docker build --progress plain -t registry.gitlab.com/lyvesaas/registry/sumon-testcicd:${COMMIT-ID} .
             '''
               
    
@@ -100,7 +103,7 @@ pipeline {
     stage("Scan for vulnerabilities"){
         steps {
             container('trivy'){
-                sh 'trivy image registry.gitlab.com/lyvesaas/registry/sumon-testcicd:${commit_id}'
+                sh 'trivy image registry.gitlab.com/lyvesaas/registry/sumon-testcicd:${COMMIT-ID}'
             }
         }
     }    
