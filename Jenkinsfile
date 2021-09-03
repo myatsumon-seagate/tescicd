@@ -70,13 +70,12 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        writeFile file: 'Dockerfile', text: 'FROM registry.gitlab.com/lyvesaas/registry/jenkinsci/docker:20.10.8-dind-alpine3.13'
+       
         container('docker') {
-          stage('Git Checkout') {
+          steps {
             checkout scm
             sh "git rev-parse --short HEAD > .git/commit-id"   
-          }
-           stage('Build and publish') {
+          
             sh '''
 
               sleep 10
