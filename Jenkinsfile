@@ -72,7 +72,7 @@ pipeline {
       steps {
        
         container('docker') {
-          steps {
+          
             checkout scm
             sh "git rev-parse --short HEAD > .git/commit-id"   
           
@@ -83,7 +83,7 @@ pipeline {
               DOCKER_BUILDKIT=1 docker build --progress plain -t registry.gitlab.com/lyvesaas/registry/sumon:testcicd .
             '''
               
-            }
+   
           }
         }
       }
