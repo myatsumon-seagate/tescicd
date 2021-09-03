@@ -1,14 +1,11 @@
 .idea/
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-#bin
-/facelift-be/faceliftbe
-/facelift-be/backend
 
 # dependencies
 /**/node_modules
 /**/protos
-/**/build
+#/**/build
 /.pnp
 .pnp.js
 
@@ -16,7 +13,7 @@
 /coverage
 
 # production
-/build
+#/build
 
 # misc
 .DS_Store

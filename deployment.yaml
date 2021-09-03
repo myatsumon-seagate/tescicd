@@ -20,10 +20,10 @@ spec:
         app: hello
     spec:
       imagePullSecrets:
-      - name: sumondocker
+      - name: regcred
       containers:
         - name: hello
-          image: localhost:5000/test
+          image: localhost:5000/app-offline
           imagePullPolicy: Always
           ports:
           - containerPort: 80
@@ -47,11 +47,20 @@ spec:
 
 ---
 
+# apiVersion: v1
+# data:
+#   .dockerconfigjson: eyJhdXRocyI6eyJyZWdpc3RyeS5naXRsYWIuY29tIjp7InVzZXJuYW1lIjoibXlhdDg2QGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiXzFGdU5RN3Jqblh3bzg2aHBDRGsiLCJlbWFpbCI6Im15YXQ4NkBnbWFpbC5jb20iLCJhdXRoIjoiYlhsaGREZzJRR2R0WVdsc0xtTnZiVHBmTVVaMVRsRTNjbXB1V0hkdk9EWm9jRU5FYXc9PSJ9fX0=
+# kind: Secret
+# metadata:
+#   name: sumondocker
+#   namespace: sumon
+# type: kubernetes.io/dockerconfigjson
+
 apiVersion: v1
 data:
   .dockerconfigjson: eyJhdXRocyI6eyJyZWdpc3RyeS5naXRsYWIuY29tIjp7InVzZXJuYW1lIjoibXlhdDg2QGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiXzFGdU5RN3Jqblh3bzg2aHBDRGsiLCJlbWFpbCI6Im15YXQ4NkBnbWFpbC5jb20iLCJhdXRoIjoiYlhsaGREZzJRR2R0WVdsc0xtTnZiVHBmTVVaMVRsRTNjbXB1V0hkdk9EWm9jRU5FYXc9PSJ9fX0=
 kind: Secret
 metadata:
-  name: sumondocker
+  name: regcred
   namespace: sumon
 type: kubernetes.io/dockerconfigjson
