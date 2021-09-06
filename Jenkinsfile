@@ -71,12 +71,25 @@ pipeline {
         COMMITID = 'latest' 
   }
   stages {
+
+    stage("Checkout"){
+      checkout scm
+    }
+
+    stage("Test"){
+      steps {
+          nodejs(nodeJSInstallationName: 'NodeJS') {
+          sh 'npm install --only=dev'
+          sh 'npm test'
+        }
+      }
+    }
      
     stage('Build') {
       steps {
         
-        checkout scm
-        sh "git rev-parse --short HEAD > .git/commit-id"   
+        // checkout scm
+        // sh "git rev-parse --short HEAD > .git/commit-id"   
         container('docker') {
           
             
@@ -92,13 +105,7 @@ pipeline {
           }
         }
       }
-    stage("Test"){
-        steps {
-            container('docker'){
-                sh 'docker images'
-            }
-        }
-    }
+
     stage("Scan for vulnerabilities"){
         steps {
             container('trivy'){
