@@ -67,22 +67,26 @@ pipeline {
 	  inheritFrom 'dind'
     }
   }
-  environment {
-        COMMITID = 'latest' 
-  }
   stages {
-     
+    stage('Checkout') {
+      steps {
+        checkout scm
+        sh "git rev-parse --short HEAD > .git/commit-id"  
+      }
+    }
+    stage("Test"){
+        steps {
+            nodejs(nodeJSInstallationName: 'NodeJS') {
+              sh 'npm install --only=dev'
+              sh 'npm test'
+            }
+        }
+    }
     stage('Build') {
       steps {
-        
-        checkout scm
-        sh "git rev-parse --short HEAD > .git/commit-id"   
         container('docker') {
           
-            
-      
             sh '''
-
               sleep 10
               docker login registry.gitlab.com --username myat86@gmail.com --password _1FuNQ7rjnXwo86hpCDk
               DOCKER_BUILDKIT=1 docker build --progress plain -t registry.gitlab.com/lyvesaas/registry/sumon-testcicd:${BUILD_NUMBER} .
@@ -92,13 +96,7 @@ pipeline {
           }
         }
       }
-    stage("Test"){
-        steps {
-            container('docker'){
-                sh 'docker images'
-            }
-        }
-    }
+    
     stage("Scan for vulnerabilities"){
         steps {
             container('trivy'){
