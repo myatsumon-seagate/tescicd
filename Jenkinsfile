@@ -123,7 +123,7 @@ pipeline {
             sh '''
                
               docker login registry.gitlab.com --username myat86@gmail.com --password _1FuNQ7rjnXwo86hpCDk
-              docker push registry.gitlab.com/lyvesaas/registry/sumon-testcicd:${BUILD_NUMBER} .
+              docker push registry.gitlab.com/lyvesaas/registry/sumon-testcicd:${BUILD_NUMBER}
             '''
               
    
