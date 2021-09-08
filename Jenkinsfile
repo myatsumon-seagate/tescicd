@@ -101,7 +101,7 @@ pipeline {
         steps {
             container('trivy'){
               sh '''
-                trivy --exit-code 1 --severity CRITICAL registry.gitlab.com/lyvesaas/registry/sumon-testcicd:${BUILD_NUMBER}
+                trivy --exit-code 1 --severity LOW registry.gitlab.com/lyvesaas/registry/sumon-testcicd:${BUILD_NUMBER}
 
                 my_exit_code=$?
                 echo "RESULT 1:--- $my_exit_code"
