@@ -67,13 +67,13 @@ pipeline {
 	  inheritFrom 'dind'
     }
   }
-  stages {
-    stage('Checkout') {
-      steps {
-        checkout scm
-        sh "git rev-parse --short HEAD > .git/commit-id"  
-      }
-    }
+  // stages {
+  //   stage('Checkout') {
+  //     steps {
+  //       checkout scm
+  //       sh "git rev-parse --short HEAD > .git/commit-id"  
+  //     }
+  //   }
     stage("Test"){
         steps {
             nodejs(nodeJSInstallationName: 'NodeJS') {
@@ -101,7 +101,7 @@ pipeline {
         steps {
             container('trivy'){
               sh '''
-                trivy --exit-code 1 --severity LOW registry.gitlab.com/lyvesaas/registry/sumon-testcicd:${BUILD_NUMBER}
+                trivy --exit-code 1 --severity CRITICAL registry.gitlab.com/lyvesaas/registry/sumon-testcicd:${BUILD_NUMBER}
 
                 my_exit_code=$?
                 echo "RESULT 1:--- $my_exit_code"
@@ -115,6 +115,20 @@ pipeline {
               '''
             }
         }
-    }    
+    }  
+    stage('Publish') {
+      steps {
+        container('docker') {
+          
+            sh '''
+               
+              docker login registry.gitlab.com --username myat86@gmail.com --password _1FuNQ7rjnXwo86hpCDk
+              docker push registry.gitlab.com/lyvesaas/registry/sumon-testcicd:${BUILD_NUMBER}
+            '''
+              
+   
+          }
+        }
+      }  
   }
 }
