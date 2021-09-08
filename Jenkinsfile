@@ -119,14 +119,11 @@ pipeline {
     stage('Publish') {
       steps {
         container('docker') {
-          
-            sh '''
-               
-              docker login registry.gitlab.com --username myat86@gmail.com --password _1FuNQ7rjnXwo86hpCDk
-              docker push registry.gitlab.com/lyvesaas/registry/sumon-testcicd:${BUILD_NUMBER}
-            '''
-              
-   
+            withCredentials([usernamePassword(credentialsId: 'sumon-gitlab', passwordVariable: 'CI_DOCKER_REGISTRY_PASSWD', usernameVariable: 'CI_DOCKER_REGISTRY_USER')]) {
+              sh 'docker login registry.gitlab.com --username $CI_DOCKER_REGISTRY_USER --password $CI_DOCKER_REGISTRY_PASSWD'
+            }
+            sh 'docker push registry.gitlab.com/lyvesaas/registry/sumon-testcicd:${BUILD_NUMBER}'
+
           }
         }
       }  
