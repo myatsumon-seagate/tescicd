@@ -2,9 +2,9 @@ FROM registry.gitlab.com/lyvesaas/registry/sumon:node as build-stage
  
 WORKDIR /app
 COPY package*.json /app/
-RUN yarn add –offline
+RUN yarn install
 COPY ./ /app/
-RUN apk update
+RUN apt-get upgrade  
 RUN yarn run build
 
 FROM registry.gitlab.com/lyvesaas/registry/secure-nginx:beb87766

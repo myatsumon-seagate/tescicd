@@ -100,7 +100,19 @@ pipeline {
     stage("Scan for vulnerabilities"){
         steps {
             container('trivy'){
-                sh 'trivy image registry.gitlab.com/lyvesaas/registry/sumon-testcicd:${BUILD_NUMBER}'
+              sh '''
+                trivy --exit-code 1 --severity CRITICAL registry.gitlab.com/lyvesaas/registry/sumon-testcicd:${BUILD_NUMBER}
+
+                my_exit_code=$?
+                echo "RESULT 1:--- $my_exit_code"
+                # Check scan results
+                if [ ${my_exit_code} == 1 ]; then
+                  echo "Image scanning failed. Some vulnerabilities found"
+                  exit 1;
+                else
+                  echo "Image is scanned Successfully. No vulnerabilities found"
+                fi; 
+              '''
             }
         }
     }    
