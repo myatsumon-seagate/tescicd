@@ -85,14 +85,12 @@ pipeline {
     stage('Build') {
       steps {
         container('docker') {
-          
-            sh '''
-              sleep 10
-              docker login registry.gitlab.com --username myat86@gmail.com --password _1FuNQ7rjnXwo86hpCDk
-              DOCKER_BUILDKIT=1 docker build --progress plain -t registry.gitlab.com/lyvesaas/registry/sumon-testcicd:${BUILD_NUMBER} .
-            '''
-              
-   
+
+            withCredentials([usernamePassword(credentialsId: 'sumon-gitlab', passwordVariable: 'CI_DOCKER_REGISTRY_PASSWD', usernameVariable: 'CI_DOCKER_REGISTRY_USER')]) {
+              sh 'docker login registry.gitlab.com --username $CI_DOCKER_REGISTRY_USER --password $CI_DOCKER_REGISTRY_PASSWD'
+            }
+            sh  'DOCKER_BUILDKIT=1 docker build --progress plain -t registry.gitlab.com/lyvesaas/registry/sumon-testcicd:${BUILD_NUMBER} .'
+
           }
         }
       }
